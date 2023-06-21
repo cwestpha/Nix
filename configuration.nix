@@ -2,14 +2,16 @@
 # Designed as first-boot configuration (bootstrap) for impermanence systems
 # Run nixos-generate-config --root=/mnt for hardware scan then overwrite with this as configuration.nix
 # Then you can reboot and get SecureBoot, TPM, /persist, and whatever else set up and use flakes to install
-{ pkgs, lib, ... }: {
+{ pkgs, lib, ... }:
+ {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      <nixos-hardware/framework/12th-gen-intel>
       ./hardware-configuration.nix
     ];
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.enable = true; 
   boot.supportedFilesystems = [ "btrfs" "ntfs" ];
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -40,6 +42,25 @@
     xkbVariant = "";
   };
 
+  environment.gnome.excludePackages = (with pkgs; [
+  gnome-photos
+  gnome-tour
+]) ++ (with pkgs.gnome; [
+  cheese # webcam tool
+  gnome-music
+  gnome-terminal
+  gedit # text editor
+  epiphany # web browser
+  geary # email reader
+  evince # document viewer
+  gnome-characters
+  totem # video player
+  tali # poker game
+  iagno # go game
+  hitori # sudoku game
+  atomix # puzzle game
+]);
+
   # Enable sound with pipewire.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
@@ -58,7 +79,7 @@
     extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
       bind
-      vscode
+      pkgs.vscode
       git
       starship
       pfetch
@@ -71,7 +92,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    	pkgs.brave
+    pkgs.brave
     pkgs.btop
     pkgs.
     pkgs.freetype
@@ -81,16 +102,22 @@
     pkgs.neofetch
     pkgs.vmware-horizon-client
     pkgs.wget
-    appimage-run
-    neovim
+    pkgs.appimage-run
     gcc
     gnupg
     sbctl
     tpm2-tss
     git
-    gnome.gnome-tweaks
-    gnome.gpaste
-    gnomeExtensions.night-theme-switcher
+    libgda
+    pkgs.gnome.gnome-tweaks
+    pkgs.gnomeExtensions.pano
+    pkgs.gnomeExtensions.gsnap
+    pkgs.gnomeExtensions.vitals
+    pkgs.gnomeExtensions.openweather
+    pkgs.gnomeExtensions.no-overview
+    pkgs.gnomeExtensions.appindicator
+    pkgs.gnomeExtensions.blur-my-shell
+    niv
   ];
 
  # Font Stuff
@@ -114,9 +141,6 @@
       };
     };
 };
-
-  programs.neovim.enable = true;
-  programs.neovim.defaultEditor = true;
 
   # Flatpak Settings
   services.flatpak.enable = true;
