@@ -1,0 +1,30 @@
+Things still to do...
+
+Make running flake structure since now getting close to the point where that complexity would be a benefit.
+
+things to get going out of the box...
+
+eGPU - Nvidia
+External Displays attached via USB-C DP + HDMI card
+External Displays attached via eGPU
+TPM2 encrypt
+Auto signing of secureboot
+Better Kernel [zen or xanmod?]
+Built in display scaling set correctly out of the box.
+Varify symlinks are working correctly
+Implement home
+Validate all Framework modules work
+refine software out of the box
+get Portmaster fully working
+Refine waylend setup to remove as much of xorg as possible leaving xwayland remaining
+See if there is a way to get
+
+strip back:
+Start stripping back to more deliverable minimum experiance for OOTB experience and genericize config
+Remove anything identifiable
+Start documenting base setup in several stages
+  1) out of the box pre setup
+  2) clone example
+  3) modify cloned example for your base setup
+  4) pull in and validate
+  5) modifying the base setup to customize for people's needs and use cases (i.e. add apps, gnome extensions, tweak layout, etc)
